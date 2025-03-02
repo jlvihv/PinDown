@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as path from 'path';
 
 interface PinterestOptions {
@@ -18,7 +17,7 @@ interface PinterestOptions {
 	cookies?: string;
 }
 
-async function downloadPinterest(url: string, options: PinterestOptions = {}) {
+async function downloadPinterest(url: string, options: PinterestOptions = {}): Promise<string[]> {
 	const {
 		dir = 'images',
 		threadMax = 5,
@@ -46,7 +45,7 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 
 	if (!url) {
 		console.error('Path cannot be empty.');
-		return;
+		return [];
 	}
 
 	url = url.trim();
@@ -64,12 +63,12 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 
 	if (slashPath.length === 0) {
 		console.error(`[${'\u274C'}] Neither username/boardname nor valid link: ${url}`);
-		return;
+		return [];
 	} else if (slashPath.length > 3) {
 		console.error(
 			'[!] Something wrong with Pinterest URL. Please report this issue at https://github.com/limkokhole/pinterest-downloader/issues, thanks.'
 		);
-		return;
+		return [];
 	}
 
 	const fsFMax = 255; // Assuming a maximum filename length of 255 characters
@@ -93,7 +92,7 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 		} catch (error) {
 			console.error(error);
 		}
-		return;
+		return [];
 	}
 
 	if (slashPath.length === 3) {
@@ -106,7 +105,7 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 			slashPath[2] === 'more_ideas'
 		) {
 			console.error(`[${'\u274C'}] Search, Categories, Topics, more_ideas are not supported.`);
-			return;
+			return [];
 		}
 		try {
 			const board = await getBoardInfo(secPath, false, slashPath[2], boardPath, headers);
@@ -137,7 +136,7 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 		console.log(`[i] Job is download single board by username/boardname: ${boardPath}`);
 		if (slashPath[0] === 'search' || slashPath[0] === 'categories') {
 			console.error(`[${'\u274C'}] Search, Categories and Topics not supported.`);
-			return;
+			return [];
 		}
 		try {
 			const { board, sections } = await getBoardInfo(
@@ -195,11 +194,12 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 		} catch (error) {
 			console.error(error);
 		}
+		return [];
 	} else if (slashPath.length === 1) {
 		console.log(`[i] Job is download all boards by username: ${slashPath[0]}`);
 		if (slashPath[0] === 'search' || slashPath[0] === 'categories') {
 			console.error(`[${'\u274C'}] Search, Categories and Topics not supported.`);
-			return;
+			return [];
 		}
 		try {
 			const boards = await fetchBoards(slashPath[0], headers);
@@ -263,13 +263,9 @@ async function downloadPinterest(url: string, options: PinterestOptions = {}) {
 		} catch (error) {
 			console.error(error);
 		}
+		return [];
 	}
-	const endTime = Date.now();
-	const timeSpent = Math.round((endTime - startTime) / 1000);
-	console.log(`[i] Time Spent: ${timeSpent} seconds`);
-	console.log(`[i] Start Time: ${new Date(startTime).toLocaleString()}`);
-	console.log(`[i] End Time: ${new Date(endTime).toLocaleString()}`);
-	console.log(`[i] Downloaded to : ${path.resolve(dir)}`);
+	return []
 }
 
 async function getBoardInfo(
@@ -366,36 +362,30 @@ async function fetchImgs(
 
 	console.log(`[i] Total pins: ${totalPins}`);
 
-	const downloadQueue: (() => Promise<void>)[] = [];
+	const imageUrls: string[] = [];
 	for (const pinId of pinIds) {
-		downloadQueue.push(async () => {
-			try {
-				await getPinInfo(
-					pinId,
-					logTimestamp,
-					urlPath,
-					force,
-					imgOnly,
-					vOnly,
-					dir,
-					cut,
-					fsFMax,
-					headers
-				);
-			} catch (error) {
-				console.error(error);
+		try {
+			const imageUrl = await getPinInfo(
+				pinId,
+				logTimestamp,
+				urlPath,
+				force,
+				imgOnly,
+				vOnly,
+				dir,
+				cut,
+				fsFMax,
+				headers
+			);
+			if (imageUrl) {
+				imageUrls.push(imageUrl);
 			}
-		});
+		} catch (error) {
+			console.error(error);
+		}
 	}
-
-	const chunks: (() => Promise<void>)[][] = [];
-	for (let i = 0; i < downloadQueue.length; i += threadMax) {
-		chunks.push(downloadQueue.slice(i, i + threadMax));
-	}
-
-	for (const chunk of chunks) {
-		await Promise.all(chunk.map((task) => task()));
-	}
+	console.log(`[i] Image URLs: ${imageUrls.join(', ')}`);
+	return imageUrls;
 }
 
 async function getPinInfo(
@@ -443,16 +433,7 @@ async function getPinInfo(
 		filename = filename.substring(0, cut);
 	}
 
-	const filePath = path.join(dir, `${filename}${timestamp}.${ext}`);
-
-	if (fs.existsSync(filePath) && !force) {
-		console.log(`[i] File already exists: ${filePath}`);
-		return;
-	}
-
-	const fileResponse = await fetch(url, { headers });
-	const fileBuffer = await fileResponse.arrayBuffer();
-	fs.writeFileSync(filePath, Buffer.from(fileBuffer));
+	return url;
 }
 
 export default downloadPinterest;
