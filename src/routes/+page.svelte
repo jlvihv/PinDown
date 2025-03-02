@@ -130,18 +130,18 @@
 				<p class="text-lg text-slate-600">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
 			</div>
 
-			<div class="overflow-hidden rounded-2xl bg-white/80 shadow-xl backdrop-blur-md">
+			<div class="overflow-hidden rounded-2xl bg-white/50 shadow backdrop-blur">
 				<div class="p-6 md:p-8">
-					<div class="relative">
+					<div class="flex w-full justify-between gap-4 rounded-xl border-2 border-slate-200 p-4">
 						<input
 							type="text"
-							placeholder="输入 Pinterest URL (例如：https://www.pinterest.com/pin/123456789/)"
-							class="w-full rounded-xl border-2 border-slate-200 py-4 pr-32 pl-4 transition-all duration-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+							placeholder="输入 Pinterest URL"
+							class="w-full bg-transparent text-lg text-slate-700 outline-none"
 							bind:value={url}
 							on:keydown={(e) => e.key === 'Enter' && parseUrl()}
 						/>
 						<button
-							class="absolute top-2 right-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow-md transition-opacity duration-200 hover:opacity-90"
+							class="w-28 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow transition-opacity duration-200 hover:opacity-90"
 							on:click={parseUrl}
 							disabled={loading}
 							aria-label="解析URL"
@@ -243,18 +243,11 @@
 	</main>
 
 	<footer
-		class="footer footer-center bg-base-200 rounded p-10 text-slate-600"
+		class="footer footer-center p-10 text-slate-600"
 		in:fly={{ y: 20, duration: 800, delay: 600 }}
 	>
 		<div>
 			<p>Copyright © 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
-		</div>
-		<div>
-			<div class="grid grid-flow-col gap-4">
-				<a href="#" class="link link-hover">关于我们</a>
-				<a href="#" class="link link-hover">使用帮助</a>
-				<a href="#" class="link link-hover">隐私政策</a>
-			</div>
 		</div>
 	</footer>
 </div>
