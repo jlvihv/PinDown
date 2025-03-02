@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Copy, Download, ExternalLink, Image, Loader2 } from 'lucide-svelte';
+	import { Check, Copy, Download, Image, Loader2 } from 'lucide-svelte';
 	import { fade, fly, scale } from 'svelte/transition';
 
 	let url = '';
@@ -106,57 +106,28 @@
 				d="M0,96L48,122.7C96,149,192,203,288,202.7C384,203,480,149,576,117.3C672,85,768,75,864,90.7C960,107,1056,149,1152,154.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
 			></path>
 		</svg>
-
-		<!-- 装饰点 -->
-		<div
-			class="absolute top-1/3 left-1/4 h-4 w-4 animate-pulse rounded-full bg-indigo-400 opacity-30"
-		></div>
-		<div
-			class="absolute top-2/3 left-1/2 h-6 w-6 animate-pulse rounded-full bg-blue-400 opacity-30"
-			style="animation-delay: 1s;"
-		></div>
-		<div
-			class="absolute top-1/4 right-1/3 h-5 w-5 animate-pulse rounded-full bg-purple-400 opacity-30"
-			style="animation-delay: 1.5s;"
-		></div>
-		<div
-			class="absolute right-1/4 bottom-1/3 h-3 w-3 animate-pulse rounded-full bg-indigo-400 opacity-30"
-			style="animation-delay: 0.5s;"
-		></div>
 	</div>
 
-	<header
-		class="relative z-10 bg-white/80 py-4 shadow-lg backdrop-blur-md"
-		in:fly={{ y: -20, duration: 800, delay: 200 }}
-	>
-		<div class="container mx-auto flex items-center justify-between px-4">
-			<a href="/" class="flex items-center gap-2 text-2xl font-bold text-indigo-600">
-				<div class="rounded-full bg-indigo-100 p-2">
+	<div class="navbar" in:fly={{ y: -20, duration: 800, delay: 200 }}>
+		<div class="container mx-auto px-4">
+			<div class="flex-1">
+				<a href="/" class="btn btn-ghost text-xl text-indigo-600">
 					<Image class="h-6 w-6 text-indigo-600" />
-				</div>
-				<span>PinDown</span>
-			</a>
-			<a
-				href="https://github.com/jlvihv/PinDown"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-1 text-gray-600 transition-colors duration-200 hover:text-indigo-600"
-			>
-				<span>GitHub</span>
-				<ExternalLink class="h-4 w-4" />
-			</a>
+					PinDown
+				</a>
+			</div>
 		</div>
-	</header>
+	</div>
 
 	<main
 		class="relative z-10 container mx-auto flex flex-grow flex-col items-center justify-center p-4 md:p-8"
 	>
 		<div class="w-full max-w-2xl" in:fly={{ y: 20, duration: 800, delay: 400 }}>
 			<div class="mb-10 text-center">
-				<h1 class="mb-3 text-4xl font-bold text-gray-800 md:text-5xl">
+				<h1 class="mb-3 text-4xl font-bold text-slate-800 md:text-5xl">
 					<span class="text-indigo-600">Pinterest</span> 图片下载器
 				</h1>
-				<p class="text-lg text-gray-600">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
+				<p class="text-lg text-slate-600">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
 			</div>
 
 			<div class="overflow-hidden rounded-2xl bg-white/80 shadow-xl backdrop-blur-md">
@@ -165,7 +136,7 @@
 						<input
 							type="text"
 							placeholder="输入 Pinterest URL (例如：https://www.pinterest.com/pin/123456789/)"
-							class="w-full rounded-xl border-2 border-gray-200 py-4 pr-32 pl-4 transition-all duration-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+							class="w-full rounded-xl border-2 border-slate-200 py-4 pr-32 pl-4 transition-all duration-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
 							bind:value={url}
 							on:keydown={(e) => e.key === 'Enter' && parseUrl()}
 						/>
@@ -206,7 +177,7 @@
 
 					{#if !imageUrl && !loading && !error}
 						<div
-							class="mt-6 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/70 p-6 text-center backdrop-blur-sm"
+							class="mt-6 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/70 p-6 text-center backdrop-blur-sm"
 							in:fade={{ duration: 300 }}
 						>
 							<div class="mb-4 flex justify-center">
@@ -214,7 +185,7 @@
 									<Image class="h-8 w-8 text-indigo-500" />
 								</div>
 							</div>
-							<p class="text-gray-500">粘贴 Pinterest 图片链接，点击"解析"按钮获取原图</p>
+							<p class="text-slate-500">粘贴 Pinterest 图片链接，点击"解析"按钮获取原图</p>
 						</div>
 					{/if}
 
@@ -225,7 +196,7 @@
 									class="absolute inset-0 scale-[1.01] -rotate-1 transform rounded-xl bg-gradient-to-r from-indigo-200 to-purple-200 opacity-70 transition-transform duration-300 group-hover:scale-[1.02]"
 								></div>
 								<div
-									class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-2 shadow-sm"
+									class="relative overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm"
 								>
 									<img
 										src={imageUrl}
@@ -247,7 +218,7 @@
 								</button>
 
 								<button
-									class="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white/80 px-4 py-3 font-medium text-gray-700 backdrop-blur-sm transition-colors duration-200 hover:border-indigo-300"
+									class="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white/80 px-4 py-3 font-medium text-slate-700 backdrop-blur-sm transition-colors duration-200 hover:border-indigo-300"
 									on:click={copyImageUrl}
 									in:fly={{ x: 10, duration: 300, delay: 400 }}
 								>
@@ -265,29 +236,28 @@
 				</div>
 			</div>
 
-			<div class="mt-8 text-center text-sm text-gray-500">
+			<div class="mt-8 text-center text-sm text-slate-500">
 				<p>支持所有 Pinterest 图片链接，高效稳定的下载体验</p>
 			</div>
 		</div>
 	</main>
 
 	<footer
-		class="relative z-10 mt-10 bg-white/80 py-6 backdrop-blur-md"
+		class="footer footer-center bg-base-200 rounded p-10 text-slate-600"
 		in:fly={{ y: 20, duration: 800, delay: 600 }}
 	>
-		<div class="container mx-auto px-4 text-center">
-			<p class="text-gray-600">&copy; 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
-			<div class="mt-2 flex justify-center gap-4 text-sm">
-				<a href="#" class="text-gray-500 transition-colors duration-200 hover:text-indigo-600"
-					>关于我们</a
-				>
-				<a href="#" class="text-gray-500 transition-colors duration-200 hover:text-indigo-600"
-					>使用帮助</a
-				>
-				<a href="#" class="text-gray-500 transition-colors duration-200 hover:text-indigo-600"
-					>隐私政策</a
-				>
+		<div>
+			<p>Copyright © 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
+		</div>
+		<div>
+			<div class="grid grid-flow-col gap-4">
+				<a href="#" class="link link-hover">关于我们</a>
+				<a href="#" class="link link-hover">使用帮助</a>
+				<a href="#" class="link link-hover">隐私政策</a>
 			</div>
 		</div>
 	</footer>
 </div>
+
+<style>
+</style>
