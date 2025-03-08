@@ -1,4 +1,5 @@
 <script lang="ts">
+	import clipboardCopy from 'clipboard-copy';
 	import { Check, CircleX, Copy, Download, Image, Loader2 } from 'lucide-svelte';
 	import { fade, fly, scale } from 'svelte/transition';
 
@@ -51,11 +52,17 @@
 
 	function copyImageUrl() {
 		if (imageUrl) {
-			navigator.clipboard.writeText(imageUrl);
-			copied = true;
-			setTimeout(() => {
-				copied = false;
-			}, 2000);
+			clipboardCopy(imageUrl)
+				.then(() => {
+					copied = true;
+					setTimeout(() => {
+						copied = false;
+					}, 2000);
+				})
+				.catch((err) => {
+					console.error('复制失败：', err);
+					error = '复制失败';
+				});
 		}
 	}
 </script>

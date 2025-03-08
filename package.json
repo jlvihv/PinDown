@@ -30,6 +30,7 @@
 		"vite": "^6.2.1"
 	},
 	"dependencies": {
-		"cheerio": "^1.0.0"
+		"cheerio": "^1.0.0",
+		"clipboard-copy": "^4.0.1"
 	}
 }
