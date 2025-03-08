@@ -68,12 +68,41 @@ export async function getPinImage(pinId: string, headers: Record<string, string>
 			.map((i, el) => $(el).text())
 			.get()
 			.join('\n');
-		console.log('所有 script 标签的内容：', scripts);
+		// console.log('所有 script 标签的内容：', scripts);
 
 		// 使用正则表达式，寻找 https://i.pinimg.com/originals/... 的 url，只需要第一个，返回
 		const match = /https:\/\/i\.pinimg\.com\/originals\/[^\s'"]+/i.exec(scripts);
 		if (match) {
-			console.log('匹配到的图片 URL:', match[0]);
+			// console.log('匹配到的图片 URL:', match[0]);
+			return match[0]; // 返回匹配到的 URL
+		}
+	} catch (error: any) {
+		console.error(`get pin info 失败： ${error.message}`);
+		throw error;
+	}
+}
+
+export async function getPinImageByUrl(url: string, headers: Record<string, string>): Promise<string | undefined> {
+	// 重试机制
+	try {
+		// 发送 HTTP 请求
+		const response = await fetch(url, { headers });
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		const htmlContent = await response.text();
+		// 解析 HTML
+		const $ = cheerio.load(htmlContent);
+		const scripts = $('script')
+			.map((i, el) => $(el).text())
+			.get()
+			.join('\n');
+		// console.log('所有 script 标签的内容：', scripts);
+
+		// 使用正则表达式，寻找 https://i.pinimg.com/originals/... 的 url，只需要第一个，返回
+		const match = /https:\/\/i\.pinimg\.com\/originals\/[^\s'"]+/i.exec(scripts);
+		if (match) {
+			// console.log('匹配到的图片 URL:', match[0]);
 			return match[0]; // 返回匹配到的 URL
 		}
 	} catch (error: any) {

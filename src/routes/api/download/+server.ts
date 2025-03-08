@@ -1,9 +1,11 @@
-export async function GET({ url }) {
+import type { RequestHandler } from '@sveltejs/kit';
+
+export const GET: RequestHandler = async ({ url }) => {
 	try {
 		const imageUrl = url.searchParams.get('url');
 
 		if (!imageUrl) {
-			return new Response('缺少图片URL参数', { status: 400 });
+			return new Response('缺少图片 URL 参数', { status: 400 });
 		}
 
 		// 获取图片
@@ -13,7 +15,7 @@ export async function GET({ url }) {
 			return new Response('获取图片失败', { status: response.status });
 		}
 
-		// 从URL中提取文件名
+		// 从 URL 中提取文件名
 		const fileName = imageUrl.split('/').pop() || 'pinterest_image.jpg';
 
 		// 设置响应头，使浏览器下载文件而不是显示
@@ -26,7 +28,7 @@ export async function GET({ url }) {
 			headers
 		});
 	} catch (error) {
-		console.error('下载失败:', error);
+		console.error('下载失败：', error);
 		return new Response('下载失败', { status: 500 });
 	}
-}
+};

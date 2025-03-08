@@ -42,3 +42,13 @@
 	--color-error: oklch(0.577 0.245 27.325); /* red-600 */
 	--color-error-content: oklch(0.869 0.022 252.894);
 }
+
+.scrollbar-hide {
+	/* Firefox */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	/* Safari and Chrome */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

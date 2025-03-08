@@ -1,22 +1,16 @@
 <script lang="ts">
-	import { Check, Copy, Download, Image, Loader2 } from 'lucide-svelte';
+	import { Check, CircleX, Copy, Download, Image, Loader2 } from 'lucide-svelte';
 	import { fade, fly, scale } from 'svelte/transition';
 
-	let url = '';
-	let imageUrl: string | null = null;
-	let loading = false;
-	let error: string | null = null;
-	let copied = false;
+	let url = $state('');
+	let imageUrl: string | null = $state(null);
+	let loading = $state(false);
+	let error: string | null = $state(null);
+	let copied = $state(false);
 
 	async function parseUrl() {
 		if (!url) {
 			error = '请输入 Pinterest URL';
-			return;
-		}
-
-		// 简单验证 URL 格式
-		if (!url.includes('pinterest.com/pin/')) {
-			error = '请输入有效的 Pinterest 图片 URL';
 			return;
 		}
 
@@ -95,7 +89,7 @@
 		</svg>
 	</div>
 
-	<div class="navbar" in:fly={{ y: -20, duration: 800, delay: 200 }}>
+	<div class="navbar">
 		<div class="container mx-auto px-4">
 			<div class="flex-1">
 				<a href="/" class="btn btn-ghost text-xl text-indigo-600 dark:text-indigo-200">
@@ -106,8 +100,8 @@
 		</div>
 	</div>
 
-	<main class="relative z-10 container mx-auto flex flex-grow flex-col items-center justify-center p-4 md:p-8">
-		<div class="w-full max-w-2xl" in:fly={{ y: 20, duration: 800, delay: 400 }}>
+	<main class="relative z-10 container mx-auto flex flex-grow flex-col items-center justify-center p-2">
+		<div class="w-full max-w-3xl" in:fly={{ y: 20, duration: 800, delay: 400 }}>
 			<div class="mb-10 text-center">
 				<h1 class="text-base-content mb-3 text-4xl font-bold md:text-5xl">
 					<span class="text-rose-500">Pinterest</span>
@@ -116,13 +110,15 @@
 				<p class="text-lg">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
 			</div>
 
-			<div class="overflow-hidden rounded-2xl shadow backdrop-blur">
-				<div class="p-6 md:p-8">
+			<div>
+				<div class="p-4 md:p-6">
 					<div class="flex w-full justify-between gap-4 rounded-xl border-2 border-slate-200 p-4">
-						<input type="text" placeholder="输入 Pinterest URL" class="w-full bg-transparent text-lg outline-none" bind:value={url} on:keydown={(e) => e.key === 'Enter' && parseUrl()} />
-						<button class="w-28 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow transition-opacity duration-200 hover:opacity-90" on:click={parseUrl} disabled={loading} aria-label="解析URL">
+						<input type="text" placeholder="输入 Pinterest URL" class="w-full bg-transparent text-lg outline-none" bind:value={url} onkeydown={(e) => e.key === 'Enter' && parseUrl()} />
+						<button class="w-28 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow transition-opacity duration-200 hover:opacity-90" onclick={parseUrl} disabled={loading} aria-label="解析URL">
 							{#if loading}
-								<Loader2 class="h-5 w-5 animate-spin" />
+								<div class="flex items-center justify-center">
+									<Loader2 class="size-5 animate-spin" />
+								</div>
 							{:else}
 								解析
 							{/if}
@@ -131,9 +127,7 @@
 
 					{#if error}
 						<div class="mt-3 flex items-center gap-1 text-sm text-red-500" in:fly={{ y: 10, duration: 300 }}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-								<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-							</svg>
+							<CircleX class="size-4 text-red-500" />
 							<span>{error}</span>
 						</div>
 					{/if}
@@ -151,17 +145,14 @@
 
 					{#if imageUrl}
 						<div class="mt-6" in:scale={{ duration: 400, delay: 200, start: 0.95, opacity: 0 }}>
-							<div class="group relative">
-								<div class="absolute inset-0 scale-[1.01] -rotate-1 transform rounded-xl bg-gradient-to-r from-indigo-200 to-purple-200 opacity-70 transition-transform duration-300 group-hover:scale-[1.02]"></div>
-								<div class="relative overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm">
-									<img src={imageUrl} alt="Pinterest图片" class="h-auto w-full rounded-lg object-contain" loading="lazy" />
-								</div>
+							<div class="overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm">
+								<img src={imageUrl} alt="Pinterest图片" class="h-auto w-full rounded-lg object-contain" loading="lazy" />
 							</div>
 
 							<div class="mt-6 flex flex-col gap-3 sm:flex-row">
 								<button
 									class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-3 font-medium text-white shadow-md transition-opacity duration-200 hover:opacity-90"
-									on:click={downloadImage}
+									onclick={downloadImage}
 									in:fly={{ x: -10, duration: 300, delay: 300 }}
 								>
 									<Download class="h-5 w-5" />
@@ -170,14 +161,14 @@
 
 								<button
 									class="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white/80 px-4 py-3 font-medium text-slate-700 backdrop-blur-sm transition-colors duration-200 hover:border-indigo-300"
-									on:click={copyImageUrl}
+									onclick={copyImageUrl}
 									in:fly={{ x: 10, duration: 300, delay: 400 }}
 								>
 									{#if copied}
-										<Check class="h-5 w-5 text-green-500" />
+										<Check class="size-5 text-green-500" />
 										<span class="text-green-500">已复制！</span>
 									{:else}
-										<Copy class="h-5 w-5" />
+										<Copy class="size-5" />
 										<span>复制图片链接</span>
 									{/if}
 								</button>
@@ -186,14 +177,10 @@
 					{/if}
 				</div>
 			</div>
-
-			<div class="mt-8 text-center text-sm text-slate-500">
-				<p>支持所有 Pinterest 图片链接，高效稳定的下载体验</p>
-			</div>
 		</div>
 	</main>
 
-	<footer class="footer footer-center text-base-content p-10" in:fly={{ y: 20, duration: 800, delay: 600 }}>
+	<footer class="footer footer-center text-base-content p-10">
 		<p>Copyright © 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
 	</footer>
 </div>
