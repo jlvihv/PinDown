@@ -8,5 +8,4 @@ import { getPinImage, headers } from './parser';
 
 // getPinImage('667377238566467123', headers.v4).then(console.log);
 
-
 // getBoardInfo('kolosmaria12', headers.v4).then(console.log);

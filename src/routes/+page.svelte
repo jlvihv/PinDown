@@ -67,17 +67,13 @@
 </script>
 
 <div
-	class="relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50"
+	class="relative flex min-h-screen flex-col overflow-y-auto bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50
+	dark:from-slate-900 dark:via-slate-800 dark:to-slate-700"
 >
 	<!-- SVG 背景装饰 -->
 	<div class="absolute inset-0 z-0 overflow-hidden">
 		<!-- 顶部波浪 -->
-		<svg
-			class="absolute top-0 left-0 w-full opacity-10"
-			viewBox="0 0 1440 320"
-			xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="none"
-		>
+		<svg class="absolute top-0 left-0 w-full opacity-10" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
 			<path
 				fill="#6366f1"
 				d="M0,192L48,176C96,160,192,128,288,122.7C384,117,480,139,576,165.3C672,192,768,224,864,224C960,224,1056,192,1152,176C1248,160,1344,160,1392,160L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
@@ -85,22 +81,13 @@
 		</svg>
 
 		<!-- 右侧圆形 -->
-		<div
-			class="absolute top-1/4 right-0 h-96 w-96 translate-x-1/2 transform rounded-full bg-gradient-to-br from-purple-300 to-indigo-300 opacity-20 blur-3xl filter"
-		></div>
+		<div class="absolute top-1/4 right-0 h-96 w-96 translate-x-1/2 transform rounded-full bg-gradient-to-br from-purple-300 to-indigo-300 opacity-20 blur-3xl filter dark:from-purple-800 dark:to-indigo-900"></div>
 
 		<!-- 左侧圆形 -->
-		<div
-			class="absolute bottom-0 left-0 h-80 w-80 -translate-x-1/2 translate-y-1/4 transform rounded-full bg-gradient-to-tr from-blue-300 to-teal-300 opacity-20 blur-3xl filter"
-		></div>
+		<div class="absolute bottom-0 left-0 h-80 w-80 -translate-x-1/2 translate-y-1/4 transform rounded-full bg-gradient-to-tr from-blue-300 to-teal-300 opacity-20 blur-3xl filter dark:from-blue-800 dark:to-teal-800"></div>
 
 		<!-- 底部波浪 -->
-		<svg
-			class="absolute bottom-0 left-0 w-full opacity-10"
-			viewBox="0 0 1440 320"
-			xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="none"
-		>
+		<svg class="absolute bottom-0 left-0 w-full opacity-10" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
 			<path
 				fill="#8b5cf6"
 				d="M0,96L48,122.7C96,149,192,203,288,202.7C384,203,480,149,576,117.3C672,85,768,75,864,90.7C960,107,1056,149,1152,154.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
@@ -111,41 +98,29 @@
 	<div class="navbar" in:fly={{ y: -20, duration: 800, delay: 200 }}>
 		<div class="container mx-auto px-4">
 			<div class="flex-1">
-				<a href="/" class="btn btn-ghost text-xl text-indigo-600">
-					<Image class="h-6 w-6 text-indigo-600" />
+				<a href="/" class="btn btn-ghost text-xl text-indigo-600 dark:text-indigo-200">
+					<Image class="h-6 w-6 text-indigo-600 dark:text-indigo-200" />
 					PinDown
 				</a>
 			</div>
 		</div>
 	</div>
 
-	<main
-		class="relative z-10 container mx-auto flex flex-grow flex-col items-center justify-center p-4 md:p-8"
-	>
+	<main class="relative z-10 container mx-auto flex flex-grow flex-col items-center justify-center p-4 md:p-8">
 		<div class="w-full max-w-2xl" in:fly={{ y: 20, duration: 800, delay: 400 }}>
 			<div class="mb-10 text-center">
-				<h1 class="mb-3 text-4xl font-bold text-slate-800 md:text-5xl">
-					<span class="text-indigo-600">Pinterest</span> 图片下载器
+				<h1 class="text-base-content mb-3 text-4xl font-bold md:text-5xl">
+					<span class="text-rose-500">Pinterest</span>
+					图片下载器
 				</h1>
-				<p class="text-lg text-slate-600">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
+				<p class="text-lg">轻松获取高清原图，一键下载您喜爱的 Pinterest 图片</p>
 			</div>
 
-			<div class="overflow-hidden rounded-2xl bg-white/50 shadow backdrop-blur">
+			<div class="overflow-hidden rounded-2xl shadow backdrop-blur">
 				<div class="p-6 md:p-8">
 					<div class="flex w-full justify-between gap-4 rounded-xl border-2 border-slate-200 p-4">
-						<input
-							type="text"
-							placeholder="输入 Pinterest URL"
-							class="w-full bg-transparent text-lg text-slate-700 outline-none"
-							bind:value={url}
-							on:keydown={(e) => e.key === 'Enter' && parseUrl()}
-						/>
-						<button
-							class="w-28 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow transition-opacity duration-200 hover:opacity-90"
-							on:click={parseUrl}
-							disabled={loading}
-							aria-label="解析URL"
-						>
+						<input type="text" placeholder="输入 Pinterest URL" class="w-full bg-transparent text-lg outline-none" bind:value={url} on:keydown={(e) => e.key === 'Enter' && parseUrl()} />
+						<button class="w-28 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 font-medium text-white shadow transition-opacity duration-200 hover:opacity-90" on:click={parseUrl} disabled={loading} aria-label="解析URL">
 							{#if loading}
 								<Loader2 class="h-5 w-5 animate-spin" />
 							{:else}
@@ -155,31 +130,16 @@
 					</div>
 
 					{#if error}
-						<div
-							class="mt-3 flex items-center gap-1 text-sm text-red-500"
-							in:fly={{ y: 10, duration: 300 }}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-4 w-4"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-									clip-rule="evenodd"
-								/>
+						<div class="mt-3 flex items-center gap-1 text-sm text-red-500" in:fly={{ y: 10, duration: 300 }}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
 							</svg>
 							<span>{error}</span>
 						</div>
 					{/if}
 
 					{#if !imageUrl && !loading && !error}
-						<div
-							class="mt-6 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/70 p-6 text-center backdrop-blur-sm"
-							in:fade={{ duration: 300 }}
-						>
+						<div class="mt-6 rounded-xl border-2 border-dashed border-slate-200 p-6 text-center" in:fade={{ duration: 300 }}>
 							<div class="mb-4 flex justify-center">
 								<div class="rounded-full bg-indigo-100 p-3">
 									<Image class="h-8 w-8 text-indigo-500" />
@@ -192,18 +152,9 @@
 					{#if imageUrl}
 						<div class="mt-6" in:scale={{ duration: 400, delay: 200, start: 0.95, opacity: 0 }}>
 							<div class="group relative">
-								<div
-									class="absolute inset-0 scale-[1.01] -rotate-1 transform rounded-xl bg-gradient-to-r from-indigo-200 to-purple-200 opacity-70 transition-transform duration-300 group-hover:scale-[1.02]"
-								></div>
-								<div
-									class="relative overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm"
-								>
-									<img
-										src={imageUrl}
-										alt="Pinterest图片"
-										class="h-auto w-full rounded-lg object-contain"
-										loading="lazy"
-									/>
+								<div class="absolute inset-0 scale-[1.01] -rotate-1 transform rounded-xl bg-gradient-to-r from-indigo-200 to-purple-200 opacity-70 transition-transform duration-300 group-hover:scale-[1.02]"></div>
+								<div class="relative overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm">
+									<img src={imageUrl} alt="Pinterest图片" class="h-auto w-full rounded-lg object-contain" loading="lazy" />
 								</div>
 							</div>
 
@@ -242,13 +193,8 @@
 		</div>
 	</main>
 
-	<footer
-		class="footer footer-center p-10 text-slate-600"
-		in:fly={{ y: 20, duration: 800, delay: 600 }}
-	>
-		<div>
-			<p>Copyright © 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
-		</div>
+	<footer class="footer footer-center text-base-content p-10" in:fly={{ y: 20, duration: 800, delay: 600 }}>
+		<p>Copyright © 2025 PinDown - 简单高效的 Pinterest 图片下载工具</p>
 	</footer>
 </div>
 

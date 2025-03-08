@@ -3,8 +3,7 @@ import * as cheerio from 'cheerio';
 export const headers = {
 	v0: {
 		// for www.pinterest.com
-		'User-Agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
 		Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
 		'Accept-Language': 'en-US,en;q=0.5',
 		DNT: '1',
@@ -13,8 +12,7 @@ export const headers = {
 	},
 	v1v2: {
 		// for www.pinterest.com
-		'User-Agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
 		Accept: 'application/json, text/javascript, */*, q=0.01',
 		'Accept-Language': 'en-US,en;q=0.5',
 		'Accept-Encoding': 'gzip, deflate, br',
@@ -32,8 +30,7 @@ export const headers = {
 	},
 	v3: {
 		// for i.pining.com
-		'User-Agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
 		Accept: 'image/webp,*/*',
 		'Accept-Language': 'en-US,en;q=0.5',
 		Referer: 'https://www.pinterest.com/',
@@ -44,8 +41,7 @@ export const headers = {
 	},
 	v4: {
 		// for v.pinimg.com
-		'User-Agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.0.0 Safari/537.36',
 		Accept: '*/*',
 		'Accept-Language': 'en-US,en;q=0.5',
 		Origin: 'https://www.pinterest.com',
@@ -57,10 +53,7 @@ export const headers = {
 	}
 };
 
-export async function getPinImage(
-	pinId: string,
-	headers: Record<string, string>
-): Promise<string | undefined> {
+export async function getPinImage(pinId: string, headers: Record<string, string>): Promise<string | undefined> {
 	// 重试机制
 	try {
 		// 发送 HTTP 请求
