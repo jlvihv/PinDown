@@ -8,6 +8,10 @@
 
 PinDown 是一个基于 Web 的应用程序，专为解决从 Pinterest 下载的图片不是原图而设计。它可以从 Pinterest 链接中提取高清原图，并提供一键下载功能，无需注册或安装浏览器插件。
 
+[演示地址1](https://pindown.batchmemo.com)
+
+[演示地址2](https://zerorust.cn/tools/pindown)
+
 ### 主要功能
 
 - 从 Pinterest 链接中提取高清原图
